@@ -138,16 +138,33 @@ class App extends Component {
   };
 
   render() {
+    const innerDivStyle = {
+      alignItems: "center",
+      justifyContent: "center",
+      display: "flex",
+      padding: 20,
+    };
     return (
       <div style={{ margin: 0, alignItems: "center" }}>
         <div
           style={{
             alignItems: "center",
             justifyContent: "center",
-            display: "flex",
-            padding: 20,
+            display: "grid",
+            backgroundColor: "#f0f0d0",
           }}
         >
+          <div>
+            <h3 style={{ textAlign: "center" }}>NBA Game Ranking</h3>
+          </div>
+          <div>
+            <p>
+              Select your prefered sorting method and decide which game is worth
+              your time!
+            </p>
+          </div>
+        </div>
+        <div style={innerDivStyle}>
           <DropDownList onChange={this.handleChange} />
         </div>
 

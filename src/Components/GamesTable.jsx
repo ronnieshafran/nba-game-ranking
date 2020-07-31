@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Badge from "react-bootstrap/Badge";
+import Image from "react-bootstrap/Image";
 class GamesTable extends Component {
   generateBadges = (game) => {
     const badgeStyle = {
@@ -55,8 +56,9 @@ class GamesTable extends Component {
         className="table table-hover table-responsive"
         style={{
           display: "table",
-          width: "50%",
+          width: "55%",
           justifyContent: "center",
+          textAlign: "center",
         }}
       >
         <thead className="thead-dark">
@@ -74,8 +76,14 @@ class GamesTable extends Component {
                 {" "}
                 {this.props.displayedGamesList.indexOf(game) + 1}
               </th>
-              <td>{game.homeTeamName}</td>
-              <td>{game.awayTeamName}</td>
+              <td>
+                {game.homeTeamName}
+                <Image src={game.homeTeamLogoLink} style={{ width: "70px" }} />
+              </td>
+              <td>
+                {game.awayTeamName}{" "}
+                <Image src={game.awayTeamLogoLink} style={{ width: "70px" }} />
+              </td>
               <td>{this.generateBadges(game)}</td>
             </tr>
           ))}
