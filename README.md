@@ -10,6 +10,10 @@ This way, you know you're guaranteed to watch a good game! (or at least one with
 
 ## Available Scripts
 
+Please note that if you want to use this code, you will have to acquire an API key(https://rapidapi.com/api-sports/api/api-nba/details)
+
+and place it in the ComponentDidMount() function in App.js.
+
 In the project directory, you can run:
 
 ### `npm start`
