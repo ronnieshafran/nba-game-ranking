@@ -1,6 +1,20 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+----------------------------------------------------------------------------------------------------
+
+You wake up early in the morning. You have time to watch a game or two before you have to go to work. 
+
+You grab a cup of coffee, sit in front of your screen and start browsing tonights games. How will you decide which game you should watch? 
+
+Well, that's what this app is for: todays games are sorted, either by highest scoring game or closest one, in an orderly fashion in a table. 
+
+This way, you know you're guaranteed to watch a good game! (or at least one with a lot of buckets...)
+
 ## Available Scripts
+
+Please note that if you want to use this code, you will have to acquire an API key(https://rapidapi.com/api-sports/api/api-nba/details)
+
+and place it in the ComponentDidMount() function in App.js.
 
 In the project directory, you can run:
 
@@ -37,32 +51,4 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
