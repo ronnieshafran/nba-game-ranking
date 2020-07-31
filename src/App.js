@@ -25,8 +25,8 @@ class App extends Component {
     return String(today.toISOString().split("T")[0]);
   }
 
-  yesterdaysDate() {
-    let yesterday = new Date();
+  yesterdaysDate(date) {
+    let yesterday = new Date(date);
     yesterday.setDate(yesterday.getDate() - 1);
     return String(yesterday.toISOString().split("T")[0]);
   }
@@ -58,12 +58,17 @@ class App extends Component {
     }
   };
 
+  handleDateChange = (date) => {
+    this.setState({ date });
+    console.log("date changed to: " + date);
+  };
+
   getTodaysGames = () => {
     /**
      * because the API works with UTC time, early games are considered yesterday, while late games are considered today.
      * to fetch the real list, we'll have to make 2 calls to the API. */
 
-    fetch("https://api-nba-v1.p.rapidapi.com/games/date/" + this.todaysDate(), {
+    fetch("https://api-nba-v1.p.rapidapi.com/games/date/" + this.state.date, {
       method: "GET",
       headers: {
         "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
@@ -89,7 +94,7 @@ class App extends Component {
       .then(() => {
         fetch(
           "https://api-nba-v1.p.rapidapi.com/games/date/" +
-            this.yesterdaysDate(),
+            this.yesterdaysDate(this.state.date),
           {
             method: "GET",
             headers: {
@@ -167,7 +172,6 @@ class App extends Component {
         <div style={innerDivStyle}>
           <DropDownList onChange={this.handleChange} />
         </div>
-
         <div
           style={{
             display: "flex",

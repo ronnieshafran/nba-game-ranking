@@ -71,9 +71,8 @@ class GamesTable extends Component {
         </thead>
         <tbody>
           {this.props.displayedGamesList.map((game) => (
-            <tr>
+            <tr key={game.id}>
               <th scope="row">
-                {" "}
                 {this.props.displayedGamesList.indexOf(game) + 1}
               </th>
               <td>
