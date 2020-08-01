@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import DisplayGame from "./Classes/DisplayGame";
 import GamesTable from "./Components/GamesTable";
-import DropDownList from "./Components/DropDownList";
+// import DropDownList from "./Components/DropDownList";
 
 class App extends Component {
   state = {
@@ -170,7 +170,7 @@ class App extends Component {
           </div>
         </div>
         <div style={innerDivStyle}>
-          <DropDownList onChange={this.handleChange} />
+          {/*<DropDownList onChange={this.handleChange} />*/}
         </div>
         <div
           style={{
