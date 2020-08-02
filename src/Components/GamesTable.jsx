@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Badge from "react-bootstrap/Badge";
 import Image from "react-bootstrap/Image";
+
 class GamesTable extends Component {
   generateBadges = (game) => {
     let badgeMap = new Map();
@@ -32,6 +33,7 @@ class GamesTable extends Component {
   };
 
   render() {
+    const tdCenterStyle = { verticalAlign: "middle" };
     return (
       <table
         className="table table-hover table-responsive"
@@ -47,24 +49,24 @@ class GamesTable extends Component {
             <th scope="col">Game Rank</th>
             <th scope="col">Home Team</th>
             <th scope="col">Away Team</th>
-            <th scope="col">Notes</th>
+            <th scope="col">Tags</th>
           </tr>
         </thead>
         <tbody>
           {this.props.displayedGamesList.map((game) => (
             <tr key={game.id}>
-              <th scope="row">
+              <td style={tdCenterStyle}>
                 {this.props.displayedGamesList.indexOf(game) + 1}
-              </th>
-              <td>
+              </td>
+              <td style={tdCenterStyle}>
                 {game.homeTeamName}
                 <Image src={game.homeTeamLogoLink} style={{ width: "70px" }} />
               </td>
-              <td>
+              <td style={tdCenterStyle}>
                 {game.awayTeamName}{" "}
                 <Image src={game.awayTeamLogoLink} style={{ width: "70px" }} />
               </td>
-              <td>{this.generateBadges(game)}</td>
+              <td style={tdCenterStyle}>{this.generateBadges(game)}</td>
             </tr>
           ))}
         </tbody>
