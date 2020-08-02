@@ -51,7 +51,12 @@ class DisplayGame {
     return this.margin <= 5 ? true : false;
   };
   isHighScore = () => {
-    return this.homeTeamScore >= 100 && this.awayTeamScore >= 100
+    return this.homeTeamScore >= 110 && this.awayTeamScore >= 110
+      ? true
+      : false;
+  };
+  isLowScore = () => {
+    return this.homeTeamScore <= 100 && this.awayTeamScore <= 100
       ? true
       : false;
   };

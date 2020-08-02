@@ -85,7 +85,7 @@ class App extends Component {
         queriedGamesList.forEach((game) => {
           const startHour = this.getStartHour(game);
           if (startHour < 3) {
-            //todays games should start by 3AM UCT at most
+            //todays games should start by 3AM UTC at most
             gamesFromToday.push(new DisplayGame(game));
           }
         });
@@ -114,7 +114,7 @@ class App extends Component {
             queriedGamesList.forEach((game) => {
               const startHour = this.getStartHour(game);
               if (startHour > 3) {
-                //yesterdays games should start by 3AM UCT at most
+                //yesterdays games should start by 3AM UTC at most
                 gamesFromYesterday.push(new DisplayGame(game));
               }
             });
