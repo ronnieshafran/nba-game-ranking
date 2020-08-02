@@ -25,8 +25,10 @@ class GamesTable extends Component {
     }
     return (
       <React.Fragment>
-        {badgeList.map((badge) => (
-          <Badge variant={badgeMap.get(badge)}>{badge}</Badge>
+        {badgeList.map((badge, index) => (
+          <Badge key={index} variant={badgeMap.get(badge)}>
+            {badge}
+          </Badge>
         ))}
       </React.Fragment>
     );

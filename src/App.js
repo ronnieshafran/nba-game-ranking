@@ -3,6 +3,8 @@ import "./App.css";
 import DisplayGame from "./Classes/DisplayGame";
 import GamesTable from "./Components/GamesTable";
 import DropDownList from "./Components/DropDownList";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 class App extends Component {
   state = {
@@ -17,16 +19,16 @@ class App extends Component {
 
   constructor() {
     super();
-    this.state.date = this.todaysDate();
+    this.state.date = new Date();
   }
 
-  todaysDate() {
-    let today = new Date();
+  selectedDayString() {
+    let today = this.state.date;
     return String(today.toISOString().split("T")[0]);
   }
 
-  yesterdaysDate(date) {
-    let yesterday = new Date(date);
+  theDayBeforeSelectedDate() {
+    let yesterday = new Date(this.state.date);
     yesterday.setDate(yesterday.getDate() - 1);
     return String(yesterday.toISOString().split("T")[0]);
   }
@@ -44,6 +46,12 @@ class App extends Component {
     this.getTodaysGames();
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.state.date !== prevState.date) {
+      this.getTodaysGames();
+    }
+  }
+
   handleChange = () => {
     if (this.state.currentSort === "Score") {
       this.setState({
@@ -58,23 +66,22 @@ class App extends Component {
     }
   };
 
-  handleDateChange = (date) => {
-    this.setState({ date });
-    console.log("date changed to: " + date);
-  };
-
   getTodaysGames = () => {
     /**
      * because the API works with UTC time, early games are considered yesterday, while late games are considered today.
      * to fetch the real list, we'll have to make 2 calls to the API. */
-
-    fetch("https://api-nba-v1.p.rapidapi.com/games/date/" + this.state.date, {
-      method: "GET",
-      headers: {
-        "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
-        "x-rapidapi-key": "74a31071eamshe7387c3260e4bfbp1dc7b3jsnbf43416ee3df",
-      },
-    })
+    fetch(
+      "https://api-nba-v1.p.rapidapi.com/games/date/" +
+        this.selectedDayString(),
+      {
+        method: "GET",
+        headers: {
+          "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
+          "x-rapidapi-key":
+            "74a31071eamshe7387c3260e4bfbp1dc7b3jsnbf43416ee3df",
+        },
+      }
+    )
       .then((response) => {
         return response.json();
       })
@@ -94,7 +101,7 @@ class App extends Component {
       .then(() => {
         fetch(
           "https://api-nba-v1.p.rapidapi.com/games/date/" +
-            this.yesterdaysDate(this.state.date),
+            this.theDayBeforeSelectedDate(),
           {
             method: "GET",
             headers: {
@@ -142,6 +149,10 @@ class App extends Component {
       });
   };
 
+  handleDateChange = (date) => {
+    this.setState({ date });
+  };
+
   render() {
     const innerDivStyle = {
       alignItems: "center",
@@ -170,7 +181,22 @@ class App extends Component {
           </div>
         </div>
         <div style={innerDivStyle}>
-          <DropDownList onChange={this.handleChange} />
+          <DropDownList onChange={this.handleChange} date={this.state.date} />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "20%",
+            height: "50px",
+            margin: "0 auto",
+          }}
+        >
+          <h3 style={{ fontSize: "25px" }}>Select Date:</h3>
+          <DatePicker
+            selected={this.state.date}
+            onChange={this.handleDateChange}
+          />
         </div>
         <div
           style={{

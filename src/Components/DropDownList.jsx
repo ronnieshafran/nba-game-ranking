@@ -10,7 +10,7 @@ class DropDown extends Component {
         style={{
           display: "flex",
           justifyContent: "space-between",
-          width: "43%",
+          width: "26%",
           height: "50px",
           margin: "0 auto",
         }}
