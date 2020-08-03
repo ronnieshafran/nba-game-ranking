@@ -161,7 +161,7 @@ class App extends Component {
       padding: 20,
     };
     return (
-      <div style={{ margin: 0, alignItems: "center" }}>
+      <div style={{ alignItems: "center" }}>
         <div
           style={{
             alignItems: "center",
@@ -187,12 +187,12 @@ class App extends Component {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            width: "20%",
+            width: "17%",
             height: "50px",
             margin: "0 auto",
           }}
         >
-          <h3 style={{ fontSize: "25px" }}>Select Date:</h3>
+          <h3 style={{ fontSize: "25px", marginRight: "20px" }}>Date:</h3>
           <DatePicker
             selected={this.state.date}
             onChange={this.handleDateChange}
