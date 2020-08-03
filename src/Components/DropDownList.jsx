@@ -11,8 +11,9 @@ class DropDown extends Component {
           display: "flex",
           justifyContent: "space-between",
           width: "17%",
-          height: "80px",
+          height: "50px",
           margin: "25 auto",
+          marginBottom: "20px",
         }}
       >
         <h3 style={{ fontSize: "25px", marginRight: "20px" }}>Sort By:</h3>
