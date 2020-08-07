@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Badge from "react-bootstrap/Badge";
 import Image from "react-bootstrap/Image";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 class GamesTable extends Component {
   generateBadges = (game) => {
@@ -9,6 +11,12 @@ class GamesTable extends Component {
     badgeMap.set("Blowout", "danger");
     badgeMap.set("Tight D", "dark");
     badgeMap.set("Clutch", "secondary");
+
+    let toolTipMap = new Map();
+    toolTipMap.set("Bucket Fest", "Both teams scored a lot!");
+    toolTipMap.set("Blowout", "This game wasn't close!");
+    toolTipMap.set("Tight D", "Low score, good defense!");
+    toolTipMap.set("Clutch", "It came down to the wire!");
 
     let badgeList = [];
     if (game.isCloseMargin()) {
@@ -26,9 +34,23 @@ class GamesTable extends Component {
     return (
       <React.Fragment>
         {badgeList.map((badge, index) => (
-          <Badge key={index} variant={badgeMap.get(badge)}>
-            {badge}
-          </Badge>
+          <OverlayTrigger
+            //eslint-disable-next-line
+            overlay={
+              <Tooltip id="tooltip-disabled">{toolTipMap.get(badge)}</Tooltip>
+            }
+          >
+            <span className="d-inline-block">
+              <Badge
+                key={index}
+                variant={badgeMap.get(badge)}
+                disabled
+                style={{ pointerEvents: "none" }}
+              >
+                {badge}
+              </Badge>
+            </span>
+          </OverlayTrigger>
         ))}
       </React.Fragment>
     );
