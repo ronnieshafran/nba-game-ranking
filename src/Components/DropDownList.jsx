@@ -10,13 +10,12 @@ class DropDown extends Component {
         style={{
           display: "flex",
           justifyContent: "space-between",
-          width: "17%",
-          height: "50px",
-          margin: "25 auto",
+          width: "15%",
+          margin: "auto",
           marginBottom: "20px",
         }}
       >
-        <h3 style={{ fontSize: "25px", marginRight: "20px" }}>Sort By:</h3>
+        <h3 style={{ fontSize: "25px", marginRight: "10px" }}>Sort By:</h3>
         <Dropdown
           options={options}
           onChange={this.props.onChange}

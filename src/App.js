@@ -160,6 +160,12 @@ class App extends Component {
       display: "flex",
       padding: 20,
     };
+
+    const ExampleCustomInput = ({ value, onClick }) => (
+      <button className="example-custom-input" onClick={onClick}>
+        {value}
+      </button>
+    );
     return (
       <div style={{ alignItems: "center" }}>
         <div
@@ -187,8 +193,8 @@ class App extends Component {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            width: "17%",
-            height: "50px",
+            width: "8%",
+            marginBottom: "50 px",
             margin: "0 auto",
           }}
         >
@@ -196,6 +202,7 @@ class App extends Component {
           <DatePicker
             selected={this.state.date}
             onChange={this.handleDateChange}
+            customInput={<ExampleCustomInput />}
           />
         </div>
         <div
