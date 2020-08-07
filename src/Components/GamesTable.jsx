@@ -8,11 +8,11 @@ class GamesTable extends Component {
     badgeMap.set("Bucket Fest", "success");
     badgeMap.set("Blowout", "danger");
     badgeMap.set("Tight D", "dark");
-    badgeMap.set("Nail Biter", "secondary");
+    badgeMap.set("Clutch", "secondary");
 
     let badgeList = [];
     if (game.isCloseMargin()) {
-      badgeList.push("Nail Biter");
+      badgeList.push("Clutch");
     }
     if (game.isLargeMargin()) {
       badgeList.push("Blowout");
