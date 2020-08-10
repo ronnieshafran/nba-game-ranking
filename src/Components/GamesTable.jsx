@@ -11,12 +11,14 @@ class GamesTable extends Component {
     badgeMap.set("Blowout", "danger");
     badgeMap.set("Tight D", "dark");
     badgeMap.set("Clutch", "secondary");
+    badgeMap.set("MVP", "primary");
 
     let toolTipMap = new Map();
     toolTipMap.set("Bucket Fest", "Both teams scored a lot!");
     toolTipMap.set("Blowout", "This game wasn't close!");
     toolTipMap.set("Tight D", "Low score, good defense!");
     toolTipMap.set("Clutch", "It came down to the wire!");
+    toolTipMap.set("MVP", "Someone went OFF!");
 
     let badgeList = [];
     if (game.isCloseMargin()) {
@@ -31,10 +33,14 @@ class GamesTable extends Component {
     if (game.isLowScore()) {
       badgeList.push("Tight D");
     }
+    if (game.isSpecialPerformance()) {
+      badgeList.push("MVP");
+    }
     return (
       <React.Fragment>
         {badgeList.map((badge, index) => (
           <OverlayTrigger
+            key={index}
             //eslint-disable-next-line
             overlay={
               <Tooltip id="tooltip-disabled">{toolTipMap.get(badge)}</Tooltip>

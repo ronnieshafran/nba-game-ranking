@@ -15,6 +15,8 @@ class App extends Component {
     currentSort: "Score",
     gamesFromToday: [],
     gamesFromYesterday: [],
+    allGames: [],
+    dropdownOptions: ["Score", "Margin"],
   };
 
   constructor() {
@@ -52,13 +54,14 @@ class App extends Component {
     }
   }
 
-  handleChange = () => {
-    if (this.state.currentSort === "Score") {
+  handleChange = (event) => {
+    console.log(event.value);
+    if (this.state.currentSort === "Score" && event.value === "Margin") {
       this.setState({
         currentSort: "Margin",
         displayedGamesList: this.state.gamesListByMargin,
       });
-    } else {
+    } else if (this.state.currentSort === "Margin" && event.value === "Score") {
       this.setState({
         currentSort: "Score",
         displayedGamesList: this.state.gamesListByScore,
@@ -132,6 +135,37 @@ class App extends Component {
             let allGames = this.state.gamesFromToday.concat(
               this.state.gamesFromYesterday
             );
+            let requestTest = Promise.all(
+              allGames.map((game) =>
+                fetch(
+                  "https://api-nba-v1.p.rapidapi.com/gameDetails/" + game.id,
+                  {
+                    method: "GET",
+                    headers: {
+                      "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
+                      "x-rapidapi-key":
+                        "74a31071eamshe7387c3260e4bfbp1dc7b3jsnbf43416ee3df",
+                    },
+                  }
+                )
+              )
+            )
+              .then((responses) => {
+                return responses.map((response) => response.json());
+              })
+              .then((data) => {
+                Promise.all(data).then((responses) => {
+                  let gameDetailsList = responses.map(
+                    (game) => (game = game.api.game[0])
+                  );
+                  let i = 0;
+                  for (i = 0; i < allGames.length; i++) {
+                    allGames[i].fillGameDetails(gameDetailsList[i]);
+                  }
+                  this.setState({ allGames });
+                });
+              });
+
             let sortedGamesListByScore = [...allGames];
             let sortedGamesListByMargin = [...allGames];
             sortedGamesListByScore.sort(
@@ -146,6 +180,25 @@ class App extends Component {
               gamesListByMargin: sortedGamesListByMargin,
             });
           });
+      });
+  };
+
+  getAdditionalGameDetails = (game) => {
+    fetch("https://api-nba-v1.p.rapidapi.com/gameDetails/" + game.id, {
+      method: "GET",
+      headers: {
+        "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
+        "x-rapidapi-key": "74a31071eamshe7387c3260e4bfbp1dc7b3jsnbf43416ee3df",
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .then((json) => {
+        game.fillGameDetails(json.api.game[0]);
       });
   };
 
@@ -187,7 +240,12 @@ class App extends Component {
           </div>
         </div>
         <div style={innerDivStyle}>
-          <DropDownList onChange={this.handleChange} date={this.state.date} />
+          <DropDownList
+            onChange={this.handleChange}
+            options={this.state.dropdownOptions}
+            value={this.state.currentSort}
+            date={this.state.date}
+          />
         </div>
         <div
           style={{

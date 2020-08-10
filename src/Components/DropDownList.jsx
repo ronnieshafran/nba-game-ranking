@@ -4,22 +4,21 @@ import "react-dropdown/style.css";
 
 class DropDown extends Component {
   render() {
-    const options = ["Highest Score", "Closest Margin"];
     return (
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
-          width: "15%",
+          width: "13%",
           margin: "auto",
           marginBottom: "20px",
         }}
       >
-        <h3 style={{ fontSize: "25px", marginRight: "10px" }}>Sort By:</h3>
+        <h3 style={{ fontSize: "25px", marginRight: "15px" }}>Sort By:</h3>
         <Dropdown
-          options={options}
+          options={this.props.options}
           onChange={this.props.onChange}
-          value={options[0]}
+          value={this.props.value}
         />
       </div>
     );
