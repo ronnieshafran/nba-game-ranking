@@ -135,7 +135,9 @@ class App extends Component {
             let allGames = this.state.gamesFromToday.concat(
               this.state.gamesFromYesterday
             );
-            let requestTest = Promise.all(
+            //fetch game details for each game - it's a different endpoint in the API.
+            //the gameDetails endpoints is used for blowout, MVP and clutch.
+            Promise.all(
               allGames.map((game) =>
                 fetch(
                   "https://api-nba-v1.p.rapidapi.com/gameDetails/" + game.id,

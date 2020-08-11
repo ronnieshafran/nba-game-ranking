@@ -60,11 +60,20 @@ class DisplayGame {
   };
 
   #determineSpecialPerformance = (game) => {
-    const homeLeadingScorer = Number(game.hTeam.leaders[0].points);
-    const awayLeadingScorer = Number(game.vTeam.leaders[0].points);
-    // console.log("hteam leader: " + homeLeadingScorer);
-    // console.log("vteam leader: " + awayLeadingScorer);
+    const homeLeadingScorer = this.#findPointLeader(game.hTeam.leaders);
+    const awayLeadingScorer = this.#findPointLeader(game.vTeam.leaders);
     return homeLeadingScorer >= 40 || awayLeadingScorer >= 40;
+  };
+
+  #findPointLeader = (leaders) => {
+    let maxPoints = 0;
+    leaders.map((leader) => {
+      let currentPoints = Number(leader.points);
+      if (currentPoints > maxPoints) {
+        maxPoints = currentPoints;
+      }
+    });
+    return maxPoints;
   };
 
   #getScoreAfter3 = (linescore) => {
@@ -86,18 +95,13 @@ class DisplayGame {
   };
 
   isLargeMargin = () => {
-    const answer =
-      this.marginAfter3 >= 15 && this.margin >= 15 ? "blowout" : "no";
-    // console.log(
-    //   this.id + ": " + this.marginAfter3 + ", " + this.margin + ", " + answer
-    // );
-    return this.marginAfter3 >= 15 && this.margin >= 15;
+    return this.marginAfter3 >= 15 && this.margin >= 10;
   };
   isCloseMargin = () => {
     return this.margin <= 5 || this.overtime;
   };
   isHighScore = () => {
-    return this.homeTeamScore >= 110 && this.awayTeamScore >= 110;
+    return this.homeTeamScore >= 120 && this.awayTeamScore >= 120;
   };
   isLowScore = () => {
     return this.homeTeamScore <= 100 && this.awayTeamScore <= 100;
