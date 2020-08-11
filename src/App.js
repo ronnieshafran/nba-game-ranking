@@ -217,6 +217,11 @@ class App extends Component {
       padding: 20,
     };
 
+    const ExampleCustomInput = ({ value, onClick }) => (
+      <button type="button" class="btn btn-secondary" onClick={onClick}>
+        {value}
+      </button>
+    );
     return (
       <div style={{ display: "flex-box", marginBottom: "20px" }}>
         <div
@@ -255,6 +260,7 @@ class App extends Component {
           <DatePicker
             selected={this.state.date}
             onChange={this.handleDateChange}
+            customInput={<ExampleCustomInput />}
           />
         </div>
         <div
