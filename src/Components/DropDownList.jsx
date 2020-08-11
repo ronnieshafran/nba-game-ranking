@@ -8,9 +8,6 @@ class DropDown extends Component {
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
-          width: "13%",
-          margin: "auto",
           marginBottom: "20px",
         }}
       >

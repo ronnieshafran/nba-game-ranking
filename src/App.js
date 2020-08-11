@@ -137,6 +137,7 @@ class App extends Component {
             );
             //fetch game details for each game - it's a different endpoint in the API.
             //the gameDetails endpoints is used for blowout, MVP and clutch.
+
             Promise.all(
               allGames.map((game) =>
                 fetch(
@@ -222,7 +223,7 @@ class App extends Component {
       </button>
     );
     return (
-      <div style={{ alignItems: "center" }}>
+      <div style={{ display: "flex-box", marginBottom: "20px" }}>
         <div
           style={{
             alignItems: "center",
@@ -252,13 +253,10 @@ class App extends Component {
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
-            width: "8%",
-            marginBottom: "50 px",
-            margin: "0 auto",
+            justifyContent: "center",
+            marginBottom: "20px",
           }}
         >
-          <h3 style={{ fontSize: "25px", marginRight: "20px" }}>Date:</h3>
           <DatePicker
             selected={this.state.date}
             onChange={this.handleDateChange}
