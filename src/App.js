@@ -146,7 +146,8 @@ class App extends Component {
                     method: "GET",
                     headers: {
                       "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
-                      "x-rapidapi-key": process.env.REACT_APP_API_KEY,
+                      "x-rapidapi-key":
+                        "74a31071eamshe7387c3260e4bfbp1dc7b3jsnbf43416ee3df",
                     },
                   }
                 )
