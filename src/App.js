@@ -146,8 +146,7 @@ class App extends Component {
                     method: "GET",
                     headers: {
                       "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
-                      "x-rapidapi-key":
-                        "74a31071eamshe7387c3260e4bfbp1dc7b3jsnbf43416ee3df",
+                      "x-rapidapi-key": process.env.REACT_APP_API_KEY,
                     },
                   }
                 )
@@ -251,7 +250,7 @@ class App extends Component {
     };
 
     const ExampleCustomInput = ({ value, onClick }) => (
-      <button type="button" class="btn btn-secondary" onClick={onClick}>
+      <button type="button" className="btn btn-secondary" onClick={onClick}>
         {value}
       </button>
     );
