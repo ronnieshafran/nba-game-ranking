@@ -1,3 +1,4 @@
+import KeyPlayersContainer from "./KeyPlayersContainer.js";
 class DisplayGame {
   id;
   homeTeamName;
@@ -11,6 +12,9 @@ class DisplayGame {
   marginAfter3;
   overtime;
   specialPerformance;
+  injuredPlayers;
+  injuredPlayersList;
+  #keyPlayers;
 
   constructor(game) {
     /**
@@ -25,6 +29,7 @@ class DisplayGame {
     this.#fillAwayTeamDetails(game);
     this.totalScore = Number(this.homeTeamScore) + Number(this.awayTeamScore);
     this.margin = Math.abs(Number(this.homeTeamScore - this.awayTeamScore));
+    this.#keyPlayers = new KeyPlayersContainer();
   }
 
   #fillHomeTeamDetails = (game) => {
@@ -57,6 +62,11 @@ class DisplayGame {
     this.overtime = this.#determineOT(game);
     this.marginAfter3 = this.#aggregateMarginAfter3(game);
     this.specialPerformance = this.#determineSpecialPerformance(game);
+  };
+
+  getInjuries = (statlines) => {
+    this.injuredPlayersList = this.#keyPlayers.getInjuries(statlines);
+    this.injuredPlayers = this.injuredPlayersList.length > 0 ? true : false;
   };
 
   #determineSpecialPerformance = (game) => {
@@ -92,6 +102,17 @@ class DisplayGame {
 
   isSpecialPerformance = () => {
     return this.specialPerformance;
+  };
+
+  hasInjuries = () => {
+    return this.injuredPlayers;
+  };
+
+  getInjuredPlayersList = () => {
+    if (this.injuredPlayers) {
+      return this.injuredPlayersList.join(", ");
+    }
+    return this.injuredPlayersList;
   };
 
   isLargeMargin = () => {

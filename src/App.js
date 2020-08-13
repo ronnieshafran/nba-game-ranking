@@ -169,6 +169,39 @@ class App extends Component {
                 });
               });
 
+            Promise.all(
+              allGames.map((game) =>
+                fetch(
+                  "https://api-nba-v1.p.rapidapi.com/statistics/players/gameId/" +
+                    game.id,
+                  {
+                    method: "GET",
+                    headers: {
+                      "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
+                      "x-rapidapi-key":
+                        "74a31071eamshe7387c3260e4bfbp1dc7b3jsnbf43416ee3df",
+                    },
+                  }
+                )
+              )
+            )
+              .then((responses) => {
+                return responses.map((response) => response.json());
+              })
+              .then((data) => {
+                Promise.all(data).then((responses) => {
+                  let playerStatsList = responses.map(
+                    (stats) => (stats = stats.api.statistics)
+                  );
+                  //console.log(playerStats);
+                  let i = 0;
+                  for (i = 0; i < allGames.length; i++) {
+                    allGames[i].getInjuries(playerStatsList[i]);
+                  }
+                  this.setState({ allGames });
+                });
+              });
+
             let sortedGamesListByScore = [...allGames];
             let sortedGamesListByMargin = [...allGames];
             sortedGamesListByScore.sort(

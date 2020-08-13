@@ -11,14 +11,16 @@ class GamesTable extends Component {
     badgeMap.set("Blowout", "danger");
     badgeMap.set("Tight D", "dark");
     badgeMap.set("Clutch", "secondary");
-    badgeMap.set("MVP", "primary");
+    badgeMap.set("1 Man Show", "primary");
+    badgeMap.set("Key Injuries", "warning");
 
     let toolTipMap = new Map();
     toolTipMap.set("Bucket Fest", "Both teams scored a lot!");
     toolTipMap.set("Blowout", "This game wasn't close!");
     toolTipMap.set("Tight D", "Low score, good defense!");
     toolTipMap.set("Clutch", "It came down to the wire!");
-    toolTipMap.set("MVP", "Someone went OFF!");
+    toolTipMap.set("1 Man Show", "Someone went OFF!");
+    toolTipMap.set("Key Injuries", game.getInjuredPlayersList());
 
     let badgeList = [];
     if (game.isCloseMargin()) {
@@ -34,10 +36,17 @@ class GamesTable extends Component {
       badgeList.push("Tight D");
     }
     if (game.isSpecialPerformance()) {
-      badgeList.push("MVP");
+      badgeList.push("1 Man Show");
+    }
+    if (game.hasInjuries()) {
+      badgeList.push("Key Injuries");
     }
     return (
-      <React.Fragment>
+      <div
+        style={{
+          display: "grid",
+        }}
+      >
         {badgeList.map((badge, index) => (
           <OverlayTrigger
             key={index}
@@ -58,7 +67,7 @@ class GamesTable extends Component {
             </span>
           </OverlayTrigger>
         ))}
-      </React.Fragment>
+      </div>
     );
   };
 
