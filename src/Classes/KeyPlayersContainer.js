@@ -51,7 +51,7 @@ class KeyPlayersContainer {
       ["982", "Jackson Jr."],
     ];
     const keyPlayersTeamList = [
-      ["2", ["538,882,227,75"]],
+      ["2", ["538", "882", "227", "75"]],
       ["4", ["153", "261"]],
       ["8", ["963", "432"]],
       ["9", ["279", "383"]],
@@ -82,9 +82,15 @@ class KeyPlayersContainer {
     in succession. a team has a total of 15 players. the 20-index player is guarranteed
     to be from a different team than the 0-index.**/
     let teamIds = [statlines[0].teamId, statlines[20].teamId];
-    let expectedPlayers = this.keyPlayersTeamIdMap
-      .get(teamIds[0])
-      .concat(this.keyPlayersTeamIdMap.get(teamIds[1]));
+    let expectedPlayersFromHomeTeam = this.keyPlayersTeamIdMap.has(teamIds[0])
+      ? this.keyPlayersTeamIdMap.get(teamIds[0])
+      : [];
+    let expectedPlayersFromAwayTeam = this.keyPlayersTeamIdMap.has(teamIds[1])
+      ? this.keyPlayersTeamIdMap.get(teamIds[1])
+      : [];
+    let expectedPlayers = expectedPlayersFromHomeTeam.concat(
+      expectedPlayersFromAwayTeam
+    );
     let foundPlayers = [];
     statlines.map((statline) => {
       const currentPlayerId = statline.playerId;
