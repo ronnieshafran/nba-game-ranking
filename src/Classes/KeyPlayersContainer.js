@@ -76,12 +76,18 @@ class KeyPlayersContainer {
     this.keyPlayersTeamIdMap = new Map(keyPlayersTeamList);
   }
 
+  #getTeamIdsFromStatlines = (statlines) => {
+    const firstId = statlines[0].teamId;
+    let filteredStatlines = statlines.filter(
+      (statline) => statline.teamId !== firstId
+    );
+    const secondId = filteredStatlines[0].teamId;
+    return [firstId, secondId];
+  };
+
   getInjuries = (statlines) => {
     let injuredPlayers;
-    /**collect both teamIds using the 0 and 20 location because players from both teams are listed
-    in succession. a team has a total of 15 players. the 20-index player is guarranteed
-    to be from a different team than the 0-index.**/
-    let teamIds = [statlines[0].teamId, statlines[20].teamId];
+    let teamIds = this.#getTeamIdsFromStatlines(statlines);
     let expectedPlayersFromHomeTeam = this.keyPlayersTeamIdMap.has(teamIds[0])
       ? this.keyPlayersTeamIdMap.get(teamIds[0])
       : [];
