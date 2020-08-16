@@ -266,7 +266,7 @@ class App extends Component {
     };
 
     const isFutureDate = (date) => {
-      return date < this.state.date;
+      return date < new Date();
     };
 
     const ButtonInput = ({ value, onClick }) => (
