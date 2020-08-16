@@ -12,12 +12,17 @@ class App extends Component {
     displayedGamesList: [],
     gamesListByScore: [],
     gamesListByMargin: [],
-    currentSort: "Score",
+    currentSort: this.initDropdown(),
     gamesFromToday: [],
     gamesFromYesterday: [],
     allGames: [],
     dropdownOptions: ["Score", "Margin"],
   };
+
+  initDropdown() {
+    if (!localStorage.getItem("sort")) return "Score";
+    return localStorage.getItem("sort");
+  }
 
   constructor() {
     super();
@@ -87,11 +92,13 @@ class App extends Component {
         currentSort: "Margin",
         displayedGamesList: this.state.gamesListByMargin,
       });
+      localStorage.setItem("sort", "Margin");
     } else if (this.state.currentSort === "Margin" && event.value === "Score") {
       this.setState({
         currentSort: "Score",
         displayedGamesList: this.state.gamesListByScore,
       });
+      localStorage.setItem("sort", "Score");
     }
   };
 
