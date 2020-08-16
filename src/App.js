@@ -19,34 +19,9 @@ class App extends Component {
     dropdownOptions: ["Score", "Margin"],
   };
 
-  initDropdown() {
-    if (!localStorage.getItem("sort")) return "Score";
-    return localStorage.getItem("sort");
-  }
-
   constructor() {
     super();
     this.state.date = new Date();
-  }
-
-  selectedDayString() {
-    let today = this.state.date;
-    return String(today.toISOString().split("T")[0]);
-  }
-
-  theDayBeforeSelectedDate() {
-    let yesterday = new Date(this.state.date);
-    yesterday.setDate(yesterday.getDate() - 1);
-    return String(yesterday.toISOString().split("T")[0]);
-  }
-
-  getStartHour(game) {
-    const startTimeUTC = game.startTimeUTC;
-    const indexOfT = startTimeUTC.indexOf("T");
-    const startHour = Number(
-      startTimeUTC.substring(indexOfT + 1, indexOfT + 3)
-    );
-    return startHour;
   }
 
   componentDidMount() {
@@ -86,7 +61,32 @@ class App extends Component {
     }
   }
 
-  handleChange = (event) => {
+  initDropdown() {
+    if (!localStorage.getItem("sort")) return "Score";
+    return localStorage.getItem("sort");
+  }
+
+  selectedDayString() {
+    let today = this.state.date;
+    return String(today.toISOString().split("T")[0]);
+  }
+
+  theDayBeforeSelectedDate() {
+    let yesterday = new Date(this.state.date);
+    yesterday.setDate(yesterday.getDate() - 1);
+    return String(yesterday.toISOString().split("T")[0]);
+  }
+
+  getStartHour(game) {
+    const startTimeUTC = game.startTimeUTC;
+    const indexOfT = startTimeUTC.indexOf("T");
+    const startHour = Number(
+      startTimeUTC.substring(indexOfT + 1, indexOfT + 3)
+    );
+    return startHour;
+  }
+
+  handleSortingChange = (event) => {
     if (this.state.currentSort === "Score" && event.value === "Margin") {
       this.setState({
         currentSort: "Margin",
@@ -265,6 +265,10 @@ class App extends Component {
       padding: 20,
     };
 
+    const isFutureDate = (date) => {
+      return date < this.state.date;
+    };
+
     const ButtonInput = ({ value, onClick }) => (
       <button type="button" className="btn btn-secondary" onClick={onClick}>
         {value}
@@ -292,7 +296,7 @@ class App extends Component {
         </div>
         <div style={innerDivStyle}>
           <DropDownList
-            onChange={this.handleChange}
+            onChange={this.handleSortingChange}
             options={this.state.dropdownOptions}
             value={this.state.currentSort}
             date={this.state.date}
@@ -309,6 +313,7 @@ class App extends Component {
             selected={this.state.date}
             onChange={this.handleDateChange}
             customInput={<ButtonInput />}
+            filterDate={isFutureDate}
           />
         </div>
         <div
