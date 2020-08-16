@@ -125,9 +125,10 @@ class App extends Component {
       .then((json) => {
         let gamesFromToday = [];
         let queriedGamesList = [...json.api.games]; //original list
+        console.log(queriedGamesList);
         queriedGamesList.forEach((game) => {
           const startHour = this.getStartHour(game);
-          if (startHour < 3) {
+          if (startHour < 3 && game.statusGame === "Finished") {
             //todays games should start by 3AM UTC at most
             gamesFromToday.push(new DisplayGame(game));
           }
@@ -153,10 +154,11 @@ class App extends Component {
           .catch((e) => console.log("error in fetch: " + e))
           .then((json) => {
             let queriedGamesList = [...json.api.games]; //original list
+            console.log(queriedGamesList);
             let gamesFromYesterday = [];
             queriedGamesList.forEach((game) => {
               const startHour = this.getStartHour(game);
-              if (startHour > 3) {
+              if (startHour > 3 && game.statusGame === "Finished") {
                 //yesterdays games should start by 3AM UTC at most
                 gamesFromYesterday.push(new DisplayGame(game));
               }
