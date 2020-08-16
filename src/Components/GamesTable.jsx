@@ -20,25 +20,25 @@ class GamesTable extends Component {
     toolTipMap.set("Tight D", "Low score, good defense!");
     toolTipMap.set("Clutch", "It came down to the wire!");
     toolTipMap.set("1 Man Show", "Someone went OFF!");
-    toolTipMap.set("Key Injuries", game.getInjuredPlayersList());
+    toolTipMap.set("Key Injuries", game.injuredPlayersList);
 
     let badgeList = [];
-    if (game.isCloseMargin()) {
+    if (game.isSmallMargin) {
       badgeList.push("Clutch");
     }
-    if (game.isLargeMargin()) {
+    if (game.isLargeMargin) {
       badgeList.push("Blowout");
     }
-    if (game.isHighScore()) {
+    if (game.isHighScore) {
       badgeList.push("Bucket Fest");
     }
-    if (game.isLowScore()) {
+    if (game.isLowScore) {
       badgeList.push("Tight D");
     }
-    if (game.isSpecialPerformance()) {
+    if (game.specialPerformance) {
       badgeList.push("1 Man Show");
     }
-    if (game.hasInjuries()) {
+    if (game.injuredPlayers) {
       badgeList.push("Key Injuries");
     }
     return (

@@ -14,6 +14,10 @@ class DisplayGame {
   specialPerformance;
   injuredPlayers;
   injuredPlayersList;
+  isSmallMargin;
+  isLargeMargin;
+  isHighScore;
+  isLowScore;
   #keyPlayers;
 
   constructor(game) {
@@ -62,11 +66,18 @@ class DisplayGame {
     this.overtime = this.#determineOT(game);
     this.marginAfter3 = this.#aggregateMarginAfter3(game);
     this.specialPerformance = this.#determineSpecialPerformance(game);
+    this.isSmallMargin = this.margin <= 5 || this.overtime;
+    this.isLargeMargin = this.marginAfter3 >= 15 && this.margin >= 10;
+    this.isHighScore = this.homeTeamScore >= 120 && this.awayTeamScore >= 120;
+    this.isLowScore = this.homeTeamScore <= 100 && this.awayTeamScore <= 100;
   };
 
   getInjuries = (statlines) => {
     this.injuredPlayersList = this.#keyPlayers.getInjuries(statlines);
     this.injuredPlayers = this.injuredPlayersList.length > 0 ? true : false;
+    if (this.injuredPlayers) {
+      this.injuredPlayersList = this.injuredPlayersList.join(", ");
+    }
   };
 
   #determineSpecialPerformance = (game) => {
@@ -98,34 +109,6 @@ class DisplayGame {
       game.vTeam.score.linescore
     );
     return Math.abs(homeTeamScoreAfter3 - awayTeamScoreAfter3);
-  };
-
-  isSpecialPerformance = () => {
-    return this.specialPerformance;
-  };
-
-  hasInjuries = () => {
-    return this.injuredPlayers;
-  };
-
-  getInjuredPlayersList = () => {
-    if (this.injuredPlayers) {
-      return this.injuredPlayersList.join(", ");
-    }
-    return this.injuredPlayersList;
-  };
-
-  isLargeMargin = () => {
-    return this.marginAfter3 >= 15 && this.margin >= 10;
-  };
-  isCloseMargin = () => {
-    return this.margin <= 5 || this.overtime;
-  };
-  isHighScore = () => {
-    return this.homeTeamScore >= 120 && this.awayTeamScore >= 120;
-  };
-  isLowScore = () => {
-    return this.homeTeamScore <= 100 && this.awayTeamScore <= 100;
   };
 
   #determineOT = (game) => {

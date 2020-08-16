@@ -50,12 +50,38 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.state.date !== prevState.date) {
-      this.getTodaysGames();
+      const prevDate = String(prevState.date.toISOString().split("T")[0]);
+      const currentDate = this.selectedDayString();
+      if (!sessionStorage.getItem(prevDate + "_Score")) {
+        sessionStorage.setItem(
+          prevDate + "_Score",
+          JSON.stringify(this.state.gamesListByScore)
+        );
+        sessionStorage.setItem(
+          prevDate + "_Margin",
+          JSON.stringify(this.state.gamesListByMargin)
+        );
+      }
+      if (sessionStorage.getItem(currentDate + "_Score")) {
+        let gamesListByScore = JSON.parse(
+          sessionStorage.getItem(currentDate + "_Score")
+        );
+        let gamesListByMargin = JSON.parse(
+          sessionStorage.getItem(currentDate + "_Margin")
+        );
+        this.setState({ gamesListByScore, gamesListByMargin });
+        if (this.state.currentSort === "Score") {
+          this.setState({ displayedGamesList: gamesListByScore });
+        } else {
+          this.setState({ displayedGamesList: gamesListByMargin });
+        }
+      } else {
+        this.getTodaysGames();
+      }
     }
   }
 
   handleChange = (event) => {
-    console.log(event.value);
     if (this.state.currentSort === "Score" && event.value === "Margin") {
       this.setState({
         currentSort: "Margin",
@@ -137,7 +163,6 @@ class App extends Component {
             );
             //fetch game details for each game - it's a different endpoint in the API.
             //the gameDetails endpoints is used for blowout, MVP and clutch.
-
             Promise.all(
               allGames.map((game) =>
                 fetch(
@@ -193,7 +218,6 @@ class App extends Component {
                   let playerStatsList = responses.map(
                     (stats) => (stats = stats.api.statistics)
                   );
-                  //console.log(playerStats);
                   let i = 0;
                   for (i = 0; i < allGames.length; i++) {
                     allGames[i].getInjuries(playerStatsList[i]);
@@ -211,30 +235,14 @@ class App extends Component {
               (game1, game2) => game1.margin - game2.margin
             );
             this.setState({
-              displayedGamesList: sortedGamesListByScore, //default sorting is by score
+              displayedGamesList:
+                this.state.currentSort === "Score"
+                  ? sortedGamesListByScore
+                  : sortedGamesListByMargin,
               gamesListByScore: sortedGamesListByScore,
               gamesListByMargin: sortedGamesListByMargin,
             });
           });
-      });
-  };
-
-  getAdditionalGameDetails = (game) => {
-    fetch("https://api-nba-v1.p.rapidapi.com/gameDetails/" + game.id, {
-      method: "GET",
-      headers: {
-        "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
-        "x-rapidapi-key": "74a31071eamshe7387c3260e4bfbp1dc7b3jsnbf43416ee3df",
-      },
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .then((json) => {
-        game.fillGameDetails(json.api.game[0]);
       });
   };
 
@@ -250,7 +258,7 @@ class App extends Component {
       padding: 20,
     };
 
-    const ExampleCustomInput = ({ value, onClick }) => (
+    const ButtonInput = ({ value, onClick }) => (
       <button type="button" className="btn btn-secondary" onClick={onClick}>
         {value}
       </button>
@@ -293,7 +301,7 @@ class App extends Component {
           <DatePicker
             selected={this.state.date}
             onChange={this.handleDateChange}
-            customInput={<ExampleCustomInput />}
+            customInput={<ButtonInput />}
           />
         </div>
         <div
