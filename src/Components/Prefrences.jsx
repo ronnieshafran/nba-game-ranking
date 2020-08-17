@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import TagSelectionForm from "./TagSelectionForm";
@@ -15,20 +15,11 @@ function Preferences(props) {
     const badge = event.target.labels[0].innerText;
     const isChecked = event.target.checked === true;
     if (isChecked) {
-      console.log("Pushing badge: " + badge);
-      console.log("Before:");
-      console.log(preferredBadges);
       preferredBadges.push(badge);
-      console.log("After:");
-      console.log(preferredBadges);
     } else {
       const index = preferredBadges.indexOf(badge);
-      console.log("removing badge: " + badge);
-      console.log("Before:");
-      console.log(preferredBadges);
+
       preferredBadges.splice(index, 1);
-      console.log("After:");
-      console.log(preferredBadges);
     }
   };
 

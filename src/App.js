@@ -74,7 +74,6 @@ class App extends Component {
   }
 
   initPreferredBadges() {
-    console.log(this.initialBadges);
     if (localStorage.getItem("preferredBadges"))
       return JSON.parse(localStorage.getItem("preferredBadges"));
     return [...this.initialBadges];

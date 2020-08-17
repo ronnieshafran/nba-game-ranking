@@ -88,7 +88,7 @@ class DisplayGame {
 
   #findPointLeader = (leaders) => {
     let maxPoints = 0;
-    leaders.map((leader) => {
+    leaders.forEach((leader) => {
       let currentPoints = Number(leader.points);
       if (currentPoints > maxPoints) {
         maxPoints = currentPoints;

@@ -98,7 +98,7 @@ class KeyPlayersContainer {
       expectedPlayersFromAwayTeam
     );
     let foundPlayers = [];
-    statlines.map((statline) => {
+    statlines.forEach((statline) => {
       const currentPlayerId = statline.playerId;
       const currentPlayerMinutes = Number(statline.min.substring(0, 2));
       if (
