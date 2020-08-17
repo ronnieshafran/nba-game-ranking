@@ -12,7 +12,7 @@ class App extends Component {
     "Blowout",
     "Bucket Fest",
     "Clutch",
-    "Missing Players",
+    "Injuries",
     "Tight D",
     "1 Man Show",
   ];
