@@ -2,11 +2,21 @@ import React, { Component } from "react";
 import "./App.css";
 import DisplayGame from "./Classes/DisplayGame";
 import GamesTable from "./Components/GamesTable";
+import Preferences from "./Components/Prefrences";
 import DropDownList from "./Components/DropDownList";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 class App extends Component {
+  initialBadges = [
+    "Blowout",
+    "Bucket Fest",
+    "Clutch",
+    "Missing Players",
+    "Tight D",
+    "1 Man Show",
+  ];
+
   state = {
     date: 0,
     displayedGamesList: [],
@@ -17,6 +27,8 @@ class App extends Component {
     gamesFromYesterday: [],
     allGames: [],
     dropdownOptions: ["Score", "Margin"],
+    badgeList: [...this.initialBadges],
+    preferredBadges: this.initPreferredBadges(),
   };
 
   constructor() {
@@ -59,6 +71,13 @@ class App extends Component {
         this.getTodaysGames();
       }
     }
+  }
+
+  initPreferredBadges() {
+    console.log(this.initialBadges);
+    if (localStorage.getItem("preferredBadges"))
+      return JSON.parse(localStorage.getItem("preferredBadges"));
+    return [...this.initialBadges];
   }
 
   initDropdown() {
@@ -125,7 +144,6 @@ class App extends Component {
       .then((json) => {
         let gamesFromToday = [];
         let queriedGamesList = [...json.api.games]; //original list
-        console.log(queriedGamesList);
         queriedGamesList.forEach((game) => {
           const startHour = this.getStartHour(game);
           if (startHour < 3 && game.statusGame === "Finished") {
@@ -154,7 +172,6 @@ class App extends Component {
           .catch((e) => console.log("error in fetch: " + e))
           .then((json) => {
             let queriedGamesList = [...json.api.games]; //original list
-            console.log(queriedGamesList);
             let gamesFromYesterday = [];
             queriedGamesList.forEach((game) => {
               const startHour = this.getStartHour(game);
@@ -259,6 +276,11 @@ class App extends Component {
     this.setState({ date });
   };
 
+  handleSavedBadges = (preferredBadges) => {
+    this.setState({ preferredBadges });
+    localStorage.setItem("preferredBadges", JSON.stringify(preferredBadges));
+  };
+
   render() {
     const innerDivStyle = {
       alignItems: "center",
@@ -311,13 +333,23 @@ class App extends Component {
             marginBottom: "20px",
           }}
         >
-          <DatePicker
-            selected={this.state.date}
-            onChange={this.handleDateChange}
-            customInput={<ButtonInput />}
-            filterDate={isFutureDate}
-          />
+          <div style={{ marginRight: "30px" }}>
+            <DatePicker
+              selected={this.state.date}
+              onChange={this.handleDateChange}
+              customInput={<ButtonInput />}
+              filterDate={isFutureDate}
+            />
+          </div>
+          <div>
+            <Preferences
+              preferredBadges={this.state.preferredBadges}
+              badgeList={this.state.badgeList}
+              onSave={this.handleSavedBadges}
+            />
+          </div>
         </div>
+
         <div
           style={{
             display: "flex",
@@ -326,7 +358,11 @@ class App extends Component {
             margin: 0,
           }}
         >
-          <GamesTable displayedGamesList={this.state.displayedGamesList} />
+          <GamesTable
+            displayedGamesList={this.state.displayedGamesList}
+            badgeList={this.state.badgeList}
+            preferredBadges={this.state.preferredBadges}
+          />
         </div>
       </div>
     );

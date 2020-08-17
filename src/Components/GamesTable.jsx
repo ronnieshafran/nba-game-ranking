@@ -3,43 +3,47 @@ import Badge from "react-bootstrap/Badge";
 import Image from "react-bootstrap/Image";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
+import Table from "react-bootstrap/Table";
 
-class GamesTable extends Component {
-  generateBadges = (game) => {
-    let badgeMap = new Map();
-    badgeMap.set("Bucket Fest", "success");
-    badgeMap.set("Blowout", "danger");
-    badgeMap.set("Tight D", "dark");
-    badgeMap.set("Clutch", "secondary");
-    badgeMap.set("1 Man Show", "primary");
-    badgeMap.set("Key Injuries", "warning");
+function GamesTable(props) {
+  const { badgeList, preferredBadges } = props;
 
-    let toolTipMap = new Map();
-    toolTipMap.set("Bucket Fest", "Both teams scored a lot!");
-    toolTipMap.set("Blowout", "This game wasn't close!");
-    toolTipMap.set("Tight D", "Low score, good defense!");
-    toolTipMap.set("Clutch", "It came down to the wire!");
-    toolTipMap.set("1 Man Show", "Someone went OFF!");
-    toolTipMap.set("Key Injuries", game.injuredPlayersList);
+  let badgeMap = new Map();
+  badgeMap.set(badgeList[0], "danger");
+  badgeMap.set(badgeList[1], "success");
+  badgeMap.set(badgeList[2], "secondary");
+  badgeMap.set(badgeList[3], "warning");
+  badgeMap.set(badgeList[4], "dark");
+  badgeMap.set(badgeList[5], "primary");
 
-    let badgeList = [];
-    if (game.isSmallMargin) {
-      badgeList.push("Clutch");
+  let toolTipMap = new Map();
+  toolTipMap.set(badgeList[0], "This game wasn't close!");
+  toolTipMap.set(badgeList[1], "Both teams scored a lot!");
+  toolTipMap.set(badgeList[2], "It came down to the wire!");
+  toolTipMap.set(badgeList[4], "Low score, good defense!");
+  toolTipMap.set(badgeList[5], "Someone went OFF!");
+
+  let generateBadges = (game) => {
+    toolTipMap.set(badgeList[3], game.injuredPlayersList);
+
+    let gameBadges = [];
+    if (game.isLargeMargin && preferredBadges.includes(badgeList[0])) {
+      gameBadges.push(badgeList[0]);
     }
-    if (game.isLargeMargin) {
-      badgeList.push("Blowout");
+    if (game.isHighScore && preferredBadges.includes(badgeList[1])) {
+      gameBadges.push(badgeList[1]);
     }
-    if (game.isHighScore) {
-      badgeList.push("Bucket Fest");
+    if (game.isSmallMargin && preferredBadges.includes(badgeList[2])) {
+      gameBadges.push(badgeList[2]);
     }
-    if (game.isLowScore) {
-      badgeList.push("Tight D");
+    if (game.injuredPlayers && preferredBadges.includes(badgeList[3])) {
+      gameBadges.push(badgeList[3]);
     }
-    if (game.specialPerformance) {
-      badgeList.push("1 Man Show");
+    if (game.isLowScore && preferredBadges.includes(badgeList[4])) {
+      gameBadges.push(badgeList[4]);
     }
-    if (game.injuredPlayers) {
-      badgeList.push("Key Injuries");
+    if (game.specialPerformance && preferredBadges.includes(badgeList[5])) {
+      gameBadges.push(badgeList[5]);
     }
     return (
       <div
@@ -47,7 +51,7 @@ class GamesTable extends Component {
           display: "grid",
         }}
       >
-        {badgeList.map((badge, index) => (
+        {gameBadges.map((badge, index) => (
           <OverlayTrigger
             key={index}
             //eslint-disable-next-line
@@ -71,46 +75,45 @@ class GamesTable extends Component {
     );
   };
 
-  render() {
-    const tdCenterStyle = { verticalAlign: "middle" };
-    return (
-      <table
-        className="table table-hover table-responsive"
-        style={{
-          display: "table",
-          width: "55%",
-          justifyContent: "center",
-          textAlign: "center",
-        }}
-      >
-        <thead className="thead-dark">
-          <tr>
-            <th scope="col">Game Rank</th>
-            <th scope="col">Home Team</th>
-            <th scope="col">Away Team</th>
-            <th scope="col">Tags</th>
+  const tdCenterStyle = { verticalAlign: "middle" };
+  return (
+    <Table
+      className="table table-hover table-responsive"
+      style={{
+        display: "table",
+        width: "50%",
+        justifyContent: "center",
+        textAlign: "center",
+      }}
+    >
+      <thead className="thead-dark">
+        <tr>
+          <th scope="col">Game Rank</th>
+          <th scope="col">Home Team</th>
+          <th scope="col">Away Team</th>
+          <th scope="col">Tags</th>
+        </tr>
+      </thead>
+      <tbody>
+        {props.displayedGamesList.map((game) => (
+          <tr key={game.id}>
+            <td style={tdCenterStyle}>
+              {props.displayedGamesList.indexOf(game) + 1}
+            </td>
+            <td style={tdCenterStyle}>
+              {game.homeTeamName}
+              <Image src={game.homeTeamLogoLink} style={{ width: "65px" }} />
+            </td>
+            <td style={tdCenterStyle}>
+              {game.awayTeamName}{" "}
+              <Image src={game.awayTeamLogoLink} style={{ width: "65px" }} />
+            </td>
+            <td style={tdCenterStyle}>{generateBadges(game)}</td>
           </tr>
-        </thead>
-        <tbody>
-          {this.props.displayedGamesList.map((game) => (
-            <tr key={game.id}>
-              <td style={tdCenterStyle}>
-                {this.props.displayedGamesList.indexOf(game) + 1}
-              </td>
-              <td style={tdCenterStyle}>
-                {game.homeTeamName}
-                <Image src={game.homeTeamLogoLink} style={{ width: "70px" }} />
-              </td>
-              <td style={tdCenterStyle}>
-                {game.awayTeamName}{" "}
-                <Image src={game.awayTeamLogoLink} style={{ width: "70px" }} />
-              </td>
-              <td style={tdCenterStyle}>{this.generateBadges(game)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    );
-  }
+        ))}
+      </tbody>
+    </Table>
+  );
 }
+
 export default GamesTable;
