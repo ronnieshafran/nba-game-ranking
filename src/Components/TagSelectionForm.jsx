@@ -2,7 +2,9 @@ import React, { Component, useState } from "react";
 import Form from "react-bootstrap/Form";
 //will recieve badge list
 function TagSelectionForm(props) {
-  const previouslySelected = localStorage.getItem("preferredBadges");
+  const previouslySelected = localStorage.getItem("preferredBadges")
+    ? localStorage.getItem("preferredBadges")
+    : props.badgeList;
   return (
     <Form>
       {props.badgeList.map((badge, index) => (
