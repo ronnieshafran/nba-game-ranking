@@ -142,13 +142,20 @@ class App extends Component {
       .catch((e) => console.log("error in fetch: " + e))
       .then((json) => {
         let gamesFromToday = [];
+        let listOfHomeTeams = [];
         let queriedGamesList = [...json.api.games]; //original list
         queriedGamesList.forEach((game) => {
           const startHour = this.getStartHour(game);
-          if (startHour < 3 && game.statusGame === "Finished") {
+          if (
+            startHour < 3 &&
+            game.statusGame === "Finished" &&
+            !listOfHomeTeams.includes(game.hTeam.shortName)
+          ) {
             //todays games should start by 3AM UTC at most
             gamesFromToday.push(new DisplayGame(game));
           }
+          let homeTeamName = game.hTeam.shortName;
+          listOfHomeTeams.push(homeTeamName);
         });
         this.setState({ gamesFromToday });
       })
@@ -172,12 +179,19 @@ class App extends Component {
           .then((json) => {
             let queriedGamesList = [...json.api.games]; //original list
             let gamesFromYesterday = [];
+            let listOfHomeTeams = [];
             queriedGamesList.forEach((game) => {
               const startHour = this.getStartHour(game);
-              if (startHour > 3 && game.statusGame === "Finished") {
+              if (
+                startHour > 3 &&
+                game.statusGame === "Finished" &&
+                !listOfHomeTeams.includes(game.hTeam.shortName)
+              ) {
                 //yesterdays games should start by 3AM UTC at most
                 gamesFromYesterday.push(new DisplayGame(game));
               }
+              let homeTeamName = game.hTeam.shortName;
+              listOfHomeTeams.push(homeTeamName);
             });
             this.setState({ gamesFromYesterday });
           })
