@@ -153,9 +153,9 @@ class App extends Component {
           ) {
             //todays games should start by 3AM UTC at most
             gamesFromToday.push(new DisplayGame(game));
+            let homeTeamName = game.hTeam.shortName;
+            listOfHomeTeams.push(homeTeamName);
           }
-          let homeTeamName = game.hTeam.shortName;
-          listOfHomeTeams.push(homeTeamName);
         });
         this.setState({ gamesFromToday });
       })
@@ -187,11 +187,11 @@ class App extends Component {
                 game.statusGame === "Finished" &&
                 !listOfHomeTeams.includes(game.hTeam.shortName)
               ) {
-                //yesterdays games should start by 3AM UTC at most
+                //yesterdays games should start after 3AM UTC
                 gamesFromYesterday.push(new DisplayGame(game));
+                let homeTeamName = game.hTeam.shortName;
+                listOfHomeTeams.push(homeTeamName);
               }
-              let homeTeamName = game.hTeam.shortName;
-              listOfHomeTeams.push(homeTeamName);
             });
             this.setState({ gamesFromYesterday });
           })
