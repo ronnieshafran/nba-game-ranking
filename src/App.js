@@ -33,7 +33,7 @@ class App extends Component {
 
   constructor() {
     super();
-    this.state.date = new Date();
+    this.state.date = new Date(2021, 5, 1);
   }
 
   componentDidMount() {
