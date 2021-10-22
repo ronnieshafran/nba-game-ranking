@@ -80,7 +80,7 @@ class App extends Component {
   }
 
   initDropdown() {
-    if (!localStorage.getItem("sort")) return "Score";
+    if (!localStorage.getItem("sort")) return "Margin";
     return localStorage.getItem("sort");
   }
 
