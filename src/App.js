@@ -147,7 +147,7 @@ class App extends Component {
         queriedGamesList.forEach((game) => {
           const startHour = this.getStartHour(game);
           if (
-            startHour < 3 &&
+            startHour < 5 &&
             game.statusGame === "Finished" &&
             !listOfHomeTeams.includes(game.hTeam.shortName)
           ) {
