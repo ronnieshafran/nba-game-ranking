@@ -151,7 +151,7 @@ class App extends Component {
             game.statusGame === "Finished" &&
             !listOfHomeTeams.includes(game.hTeam.shortName)
           ) {
-            //todays games should start by 3AM UTC at most
+            //todays games should start by 5AM UTC at most
             gamesFromToday.push(new DisplayGame(game));
             let homeTeamName = game.hTeam.shortName;
             listOfHomeTeams.push(homeTeamName);
