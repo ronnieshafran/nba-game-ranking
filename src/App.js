@@ -120,11 +120,11 @@ class App extends Component {
     }
   };
 
-  getTodaysGames = () => {
+  getTodaysGames = async () => {
     /**
      * because the API works with UTC time, early games are considered yesterday, while late games are considered today.
      * to fetch the real list, we'll have to make 2 calls to the API. */
-    fetch(
+    let response = await fetch(
       "https://api-nba-v1.p.rapidapi.com/games/date/" +
         this.selectedDayString(),
       {
@@ -135,34 +135,87 @@ class App extends Component {
             "74a31071eamshe7387c3260e4bfbp1dc7b3jsnbf43416ee3df",
         },
       }
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .catch((e) => console.log("error in fetch: " + e))
-      .then((json) => {
-        let gamesFromToday = [];
-        let listOfHomeTeams = [];
-        let queriedGamesList = [...json.api.games]; //original list
-        queriedGamesList.forEach((game) => {
-          const startHour = this.getStartHour(game);
-          if (
-            startHour < 5 &&
-            game.statusGame === "Finished" &&
-            !listOfHomeTeams.includes(game.hTeam.shortName)
-          ) {
-            //todays games should start by 5AM UTC at most
-            gamesFromToday.push(new DisplayGame(game));
-            let homeTeamName = game.hTeam.shortName;
-            listOfHomeTeams.push(homeTeamName);
-          }
-        });
-        this.setState({ gamesFromToday });
-      })
-      .then(() => {
+    );
+    let json = await response.json();
+    let gamesFromToday = [];
+    let listOfHomeTeams = [];
+    let queriedGamesList = [...json.api.games]; //original list
+    queriedGamesList.forEach((game) => {
+      const startHour = this.getStartHour(game);
+      if (
+        startHour < 5 &&
+        game.statusGame === "Finished" &&
+        !listOfHomeTeams.includes(game.hTeam.shortName)
+      ) {
+        //todays games should start by 5AM UTC at most
+        gamesFromToday.push(new DisplayGame(game));
+        let homeTeamName = game.hTeam.shortName;
+        listOfHomeTeams.push(homeTeamName);
+      }
+    });
+    this.setState({ gamesFromToday });
+    // second API call, to get yresterdays game - see comment at the beginning of this function
+    let secondResponse = await fetch(
+      "https://api-nba-v1.p.rapidapi.com/games/date/" +
+        this.theDayBeforeSelectedDate(),
+      {
+        method: "GET",
+        headers: {
+          "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
+          "x-rapidapi-key":
+            "74a31071eamshe7387c3260e4bfbp1dc7b3jsnbf43416ee3df",
+        },
+      }
+    );
+    let secondJson = await secondResponse.json();
+    let secondQueriedGamesList = [...secondJson.api.games]; //original list
+    let gamesFromYesterday = [];
+    let YesterdaysListOfHomeTeams = [];
+    secondQueriedGamesList.forEach((game) => {
+      const startHour = this.getStartHour(game);
+      if (
+        startHour > 3 &&
+        game.statusGame === "Finished" &&
+        !YesterdaysListOfHomeTeams.includes(game.hTeam.shortName)
+      ) {
+        //yesterdays games should start after 3AM UTC
+        gamesFromYesterday.push(new DisplayGame(game));
+        let homeTeamName = game.hTeam.shortName;
+        YesterdaysListOfHomeTeams.push(homeTeamName);
+      }
+    });
+    this.setState({ gamesFromYesterday });
+    //combine the games from both calls to one list
+    let allGames = this.state.gamesFromToday.concat(
+      this.state.gamesFromYesterday
+    );
+    //fetch game details for each game - it's a different endpoint in the API.
+    //the gameDetails endpoints is used for blowout, MVP and clutch.
+    let responses = await Promise.all(
+      allGames.map((game) =>
+        fetch("https://api-nba-v1.p.rapidapi.com/gameDetails/" + game.id, {
+          method: "GET",
+          headers: {
+            "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
+            "x-rapidapi-key":
+              "74a31071eamshe7387c3260e4bfbp1dc7b3jsnbf43416ee3df",
+          },
+        })
+      )
+    );
+    let data = responses.map((response) => response.json());
+    let responseData = await Promise.all(data);
+    let gameDetailsList = responseData.map((game) => (game = game.api.game[0]));
+    let i = 0;
+    for (i = 0; i < allGames.length; i++) {
+      allGames[i].fillGameDetails(gameDetailsList[i]);
+    }
+    this.setState({ allGames });
+    let gameResponse = await Promise.all(
+      allGames.map((game) =>
         fetch(
-          "https://api-nba-v1.p.rapidapi.com/games/date/" +
-            this.theDayBeforeSelectedDate(),
+          "https://api-nba-v1.p.rapidapi.com/statistics/players/gameId/" +
+            game.id,
           {
             method: "GET",
             headers: {
@@ -172,117 +225,35 @@ class App extends Component {
             },
           }
         )
-          .then((response) => {
-            return response.json();
-          })
-          .catch((e) => console.log("error in fetch: " + e))
-          .then((json) => {
-            let queriedGamesList = [...json.api.games]; //original list
-            let gamesFromYesterday = [];
-            let listOfHomeTeams = [];
-            queriedGamesList.forEach((game) => {
-              const startHour = this.getStartHour(game);
-              if (
-                startHour > 3 &&
-                game.statusGame === "Finished" &&
-                !listOfHomeTeams.includes(game.hTeam.shortName)
-              ) {
-                //yesterdays games should start after 3AM UTC
-                gamesFromYesterday.push(new DisplayGame(game));
-                let homeTeamName = game.hTeam.shortName;
-                listOfHomeTeams.push(homeTeamName);
-              }
-            });
-            this.setState({ gamesFromYesterday });
-          })
-          .then(() => {
-            //combine the games from both calls to one list
-            let allGames = this.state.gamesFromToday.concat(
-              this.state.gamesFromYesterday
-            );
-            //fetch game details for each game - it's a different endpoint in the API.
-            //the gameDetails endpoints is used for blowout, MVP and clutch.
-            Promise.all(
-              allGames.map((game) =>
-                fetch(
-                  "https://api-nba-v1.p.rapidapi.com/gameDetails/" + game.id,
-                  {
-                    method: "GET",
-                    headers: {
-                      "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
-                      "x-rapidapi-key":
-                        "74a31071eamshe7387c3260e4bfbp1dc7b3jsnbf43416ee3df",
-                    },
-                  }
-                )
-              )
-            )
-              .then((responses) => {
-                return responses.map((response) => response.json());
-              })
-              .then((data) => {
-                Promise.all(data).then((responses) => {
-                  let gameDetailsList = responses.map(
-                    (game) => (game = game.api.game[0])
-                  );
-                  let i = 0;
-                  for (i = 0; i < allGames.length; i++) {
-                    allGames[i].fillGameDetails(gameDetailsList[i]);
-                  }
-                  this.setState({ allGames });
-                });
-              });
+      )
+    );
+    let gameResponseJson = await gameResponse.map((response) =>
+      response.json()
+    );
+    let gameResponseData = await Promise.all(gameResponseJson);
+    let playerStatsList = gameResponseData.map(
+      (stats) => (stats = stats.api.statistics)
+    );
+    i = 0;
+    for (i = 0; i < allGames.length; i++) {
+      allGames[i].getInjuries(playerStatsList[i]);
+    }
+    this.setState({ allGames });
 
-            Promise.all(
-              allGames.map((game) =>
-                fetch(
-                  "https://api-nba-v1.p.rapidapi.com/statistics/players/gameId/" +
-                    game.id,
-                  {
-                    method: "GET",
-                    headers: {
-                      "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
-                      "x-rapidapi-key":
-                        "74a31071eamshe7387c3260e4bfbp1dc7b3jsnbf43416ee3df",
-                    },
-                  }
-                )
-              )
-            )
-              .then((responses) => {
-                return responses.map((response) => response.json());
-              })
-              .then((data) => {
-                Promise.all(data).then((responses) => {
-                  let playerStatsList = responses.map(
-                    (stats) => (stats = stats.api.statistics)
-                  );
-                  let i = 0;
-                  for (i = 0; i < allGames.length; i++) {
-                    allGames[i].getInjuries(playerStatsList[i]);
-                  }
-                  this.setState({ allGames });
-                });
-              });
-
-            let sortedGamesListByScore = [...allGames];
-            let sortedGamesListByMargin = [...allGames];
-            sortedGamesListByScore.sort(
-              (game1, game2) => game2.totalScore - game1.totalScore
-            );
-            sortedGamesListByMargin.sort(
-              (game1, game2) => game1.margin - game2.margin
-            );
-            this.setState({
-              displayedGamesList:
-                this.state.currentSort === "Score"
-                  ? sortedGamesListByScore
-                  : sortedGamesListByMargin,
-              gamesListByScore: sortedGamesListByScore,
-              gamesListByMargin: sortedGamesListByMargin,
-            });
-          });
-      });
+    let sortedGamesListByScore = [...allGames];
+    let sortedGamesListByMargin = [...allGames];
+    sortedGamesListByScore.sort(
+      (game1, game2) => game2.totalScore - game1.totalScore
+    );
+    sortedGamesListByMargin.sort((game1, game2) => game1.margin - game2.margin);
+    this.setState({
+      displayedGamesList:
+        this.state.currentSort === "Score"
+          ? sortedGamesListByScore
+          : sortedGamesListByMargin,
+      gamesListByScore: sortedGamesListByScore,
+      gamesListByMargin: sortedGamesListByMargin,
+    });
   };
 
   handleDateChange = (date) => {
@@ -381,5 +352,4 @@ class App extends Component {
     );
   }
 }
-
 export default App;
