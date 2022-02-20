@@ -297,8 +297,8 @@ class App extends Component {
           </div>
           <div>
             <p>
-              A spoiler-less ranking of games from the chosen date so you can
-              decide which game is worth your time!
+              A spoiler-less ranking of games so you can decide which game is
+              worth your time!
               <span style={{ color: "red", fontSize: "20px" }}>
                 <br />
                 All star break! no games until 24.2 :(
