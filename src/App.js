@@ -33,7 +33,7 @@ class App extends Component {
 
   constructor() {
     super();
-    this.state.date = new Date();
+    this.state.date = new Date("February 17, 2022");
   }
 
   componentDidMount() {
@@ -297,8 +297,12 @@ class App extends Component {
           </div>
           <div>
             <p>
-              Select your prefered sorting method and decide which game is worth
-              your time!
+              A spoiler-less ranking of games from the chosen date so you can
+              decide which game is worth your time!
+              <span style={{ color: "red", fontSize: "20px" }}>
+                <br />
+                All star break! no games until 24.2 :(
+              </span>
             </p>
           </div>
         </div>
