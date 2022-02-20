@@ -296,7 +296,7 @@ class App extends Component {
             <h3 style={{ textAlign: "center" }}>NBA Game Ranking</h3>
           </div>
           <div>
-            <p>
+            <p style={{ textAlign: "center" }}>
               A spoiler-less ranking of games so you can decide which game is
               worth your time!
               <span style={{ color: "red", fontSize: "20px" }}>
