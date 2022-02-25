@@ -33,7 +33,7 @@ class App extends Component {
 
   constructor() {
     super();
-    this.state.date = new Date("February 17, 2022");
+    this.state.date = new Date();
   }
 
   componentDidMount() {
@@ -299,10 +299,6 @@ class App extends Component {
             <p style={{ textAlign: "center" }}>
               A spoiler-less ranking of games so you can decide which game is
               worth your time!
-              <span style={{ color: "red", fontSize: "20px" }}>
-                <br />
-                All star break! no games until 24.2 :(
-              </span>
             </p>
           </div>
         </div>

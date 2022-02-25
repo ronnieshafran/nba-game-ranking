@@ -11,7 +11,7 @@ class KeyPlayersContainer {
       ["882", "Tatum"],
       ["75", "Brown"],
       // Nets
-      // ["261", "Kyrie"],
+      ["261", "Kyrie"],
       ["153", "KD"],
       ["481", "Simmons"],
       //Hornets
