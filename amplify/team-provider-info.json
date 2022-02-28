@@ -26,7 +26,11 @@
       "function": {
         "GetGames": {
           "deploymentBucketName": "amplify-nbarankapp-dev-173612-deployment",
-          "s3Key": "amplify-builds/GetGames-35777035615747535368-build.zip"
+          "s3Key": "amplify-builds/GetGames-71446a474c4842374542-build.zip"
+        },
+        "UpdateDBDaily": {
+          "deploymentBucketName": "amplify-nbarankapp-dev-173612-deployment",
+          "s3Key": "amplify-builds/UpdateDBDaily-674433725a4e6f68596b-build.zip"
         }
       }
     }

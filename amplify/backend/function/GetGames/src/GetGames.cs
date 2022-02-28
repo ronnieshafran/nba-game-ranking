@@ -52,9 +52,9 @@ namespace GetGames
                     context.Logger.LogLine($"Get Request: {request.Path}\n");
                     context.Logger.LogLine($"Path params: {request.PathParameters}\n");
                     context.Logger.LogLine($"Resource paths: {request.RequestContext.ResourcePath}\n");
-                    response.StatusCode = (int)HttpStatusCode.OK;
                     if (request.PathParameters.ContainsKey("date"))
                     {
+                        response.StatusCode = (int)HttpStatusCode.OK;
                         var requestedDate = request.PathParameters["date"];
                         var amazonDbClient = new AmazonDynamoDBClient();
                         IDynamoDBContext dbContext = new DynamoDBContext(amazonDbClient);
@@ -76,7 +76,7 @@ namespace GetGames
                     }
 
                     context.Logger.LogLine($"Body: {request.Body}");
-                    response.StatusCode = (int)HttpStatusCode.OK;
+                    response.StatusCode = (int)HttpStatusCode.Forbidden;
                     break;
                 case "PUT":
                     context.Logger.LogLine($"Put Request: {request.Path}\n");
@@ -86,30 +86,19 @@ namespace GetGames
                     }
 
                     context.Logger.LogLine($"Body: {request.Body}");
-                    response.StatusCode = (int)HttpStatusCode.OK;
+                    response.StatusCode = (int)HttpStatusCode.Forbidden;
                     break;
                 case "DELETE":
                     context.Logger.LogLine($"Delete Request: {request.Path}\n");
-                    response.StatusCode = (int)HttpStatusCode.OK;
+                    response.StatusCode = (int)HttpStatusCode.Forbidden;
                     break;
                 default:
                     context.Logger.LogLine($"Unrecognized verb {request.HttpMethod}\n");
-                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.StatusCode = (int)HttpStatusCode.Forbidden;
                     break;
             }
 
             return response;
-        }
-
-        public string printPathParams(IDictionary<string, string> pathParams)
-        {
-            StringBuilder sb = new StringBuilder("Path Params:\n");
-            foreach (var (key, value) in pathParams)
-            {
-                sb.Append($"key: {key}\nvalue:{value}\n");
-            }
-
-            return sb.ToString();
         }
     }
 }
