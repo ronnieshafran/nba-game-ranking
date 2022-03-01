@@ -30,7 +30,7 @@
         },
         "UpdateDBDaily": {
           "deploymentBucketName": "amplify-nbarankapp-dev-173612-deployment",
-          "s3Key": "amplify-builds/UpdateDBDaily-6873557550495168415a-build.zip"
+          "s3Key": "amplify-builds/UpdateDBDaily-46343167374764765a68-build.zip"
         }
       }
     }

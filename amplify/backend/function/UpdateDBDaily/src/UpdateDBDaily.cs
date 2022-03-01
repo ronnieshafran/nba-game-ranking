@@ -37,21 +37,25 @@ namespace UpdateDBDaily
             var client = new AmazonDynamoDBClient();
             IDynamoDBContext dbContext = new DynamoDBContext(client);
             var today = DateTime.Now.ToString("yyyy-MM-dd");
-            await WriteGamesFromDate(today, dbContext);
+            context.Logger.LogLine($"Activated: {DateTime.Now}");
+            await WriteGamesFromDate(today, dbContext, context);
             if (DateTime.Now.DayOfWeek == DayOfWeek.Monday)
             {
                 var yesterday = DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd");
-                await WriteGamesFromDate(yesterday, dbContext);
+                await WriteGamesFromDate(yesterday, dbContext, context);
             }
         }
 
-        private static async Task WriteGamesFromDate(string today, IDynamoDBContext dbContext)
+        private static async Task WriteGamesFromDate(string today, IDynamoDBContext dbContext,
+            ILambdaContext lambdaContext)
         {
             var games = await GamesProvider.GetGamesFromDate(today);
             foreach (var game in games)
             {
+                lambdaContext.Logger.LogLine($"{game.HomeTeam.Name} vs {game.AwayTeam.Name}");
                 await dbContext.SaveAsync(game);
             }
         }
+
     }
 }
