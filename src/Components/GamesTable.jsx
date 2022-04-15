@@ -76,6 +76,10 @@ function GamesTable(props) {
   };
 
   const tdCenterStyle = { verticalAlign: "middle" };
+  const length = props.displayedGamesList.length;
+  if (length == 0) {
+    return <h3 style={{ textAlign: "center" }}>No Games Played Today!</h3>;
+  }
   return (
     <Table
       className="table table-hover table-responsive"
