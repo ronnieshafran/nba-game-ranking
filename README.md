@@ -1,3 +1,7 @@
+## NBAGameRanking
+
+**Master branch deployed at http://www.nbagameranking.com**
+
 You wake up early in the morning. You have time to watch a game or two before you have to go to work. 
 
 You grab a cup of coffee, sit in front of your screen and start browsing tonights games. How will you decide which game you should watch? 
