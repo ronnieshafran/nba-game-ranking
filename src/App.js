@@ -29,6 +29,7 @@ class App extends Component {
     dropdownOptions: ["Score", "Margin"],
     badgeList: [...this.initialBadges],
     preferredBadges: this.initPreferredBadges(),
+    isDone: false,
   };
 
   constructor() {
@@ -254,6 +255,8 @@ class App extends Component {
       gamesListByScore: sortedGamesListByScore,
       gamesListByMargin: sortedGamesListByMargin,
     });
+
+    this.setState({ isDone: true });
   };
 
   handleDateChange = (date) => {
@@ -346,6 +349,7 @@ class App extends Component {
             displayedGamesList={this.state.displayedGamesList}
             badgeList={this.state.badgeList}
             preferredBadges={this.state.preferredBadges}
+            isDone={this.state.isDone}
           />
         </div>
       </div>
