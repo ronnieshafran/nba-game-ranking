@@ -1,6 +1,6 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## NBAGameRanking
 
-----------------------------------------------------------------------------------------------------
+**Master branch deployed at http://www.nbagameranking.com**
 
 You wake up early in the morning. You have time to watch a game or two before you have to go to work. 
 
