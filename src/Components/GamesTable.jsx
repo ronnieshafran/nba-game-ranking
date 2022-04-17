@@ -77,9 +77,9 @@ function GamesTable(props) {
 
   const tdCenterStyle = { verticalAlign: "middle" };
   const length = props.displayedGamesList.length;
-  if (props.isDone == false)
+  if (props.isDone === false)
     return <h3 style={{ textAlign: "center" }}>Loading...</h3>;
-  if (length == 0) {
+  if (length === 0) {
     return <h3 style={{ textAlign: "center" }}>No Games Played Today!</h3>;
   }
   return (
