@@ -6,7 +6,7 @@ class KeyPlayersContainer {
     const keyPlayersList = [
       // hawks
       ["1046", "Young"],
-      ["761", "Collins"],
+      ["382", "Murray"],
       // Celtics
       ["882", "Tatum"],
       ["75", "Brown"],
@@ -25,20 +25,21 @@ class KeyPlayersContainer {
       //Cavaliers
       ["1860", "Garland"],
       ["727", "Allen"],
+      ["840", "Mitchell"],
+      ["2835", "Mobley"],
       //Mavericks
       ["963", "Luka"],
       //Nuggets
       ["279", "Jokic"],
       ["383", "Murray"],
+      ["1014", "Porter Jr."],
       //Pistons
-      ["200", "Grant"],
       ["2801", "Cunningham"],
       //GSW
       ["514", "Klay"],
       ["124", "Steph"],
       ["204", "Draymond"],
       //Rockets
-      ["560", "Wood"],
       ["2810", "Green"],
       //Pacers
       ["2595", "Haliburton"],
@@ -62,9 +63,9 @@ class KeyPlayersContainer {
       ["361", "Middleton"],
       ["20", "Giannis"],
       //Timberwolves
-      ["462", "Russell"],
       ["519", "KAT"],
       ["2584", "Edwards"],
+      ["192", "Gobert"],
       //Pelicans
       ["1902", "Zion"],
       ["260", "Ingram"],
@@ -74,6 +75,8 @@ class KeyPlayersContainer {
       ["177", "Fournier"],
       //Thunder
       ["972", "SGA"],
+      // Magic
+      ["3414", "Banchero"],
       //76ers
       ["159", "Embiid"],
       ["216", "Harden"],
@@ -84,52 +87,51 @@ class KeyPlayersContainer {
       //Blazers
       ["319", "Dame"],
       ["398", "Nurkic"],
+      ["200", "Grant"],
       //Kings
       ["776", "Fox"],
       ["463", "Sabonis"],
       //Spurs
-      ["382", "Murray"],
       //Raptors
       ["479", "Siakam"],
       ["527", "VanVleet"],
       //Jazz
-      ["840", "Mitchell"],
-      ["192", "Gobert"],
       ["114", "Conley"],
+      ["830", "Markkanen"],
       //Wizards
       ["45", "Beal"],
       ["2564", "Avdija"],
       ["432", "Porzingis"],
     ];
     const keyPlayersTeamList = [
-      ["1", ["1046", "761"]], // hawks
+      ["1", ["1046", "382"]], // hawks
       ["2", ["882", "75"]], // celtics
       ["4", ["153", "481", "261"]], //nets
       ["5", ["2566", "227", "458"]], //horntes
       ["6", ["136", "308", "534"]], //bulls
-      ["7", ["1860", "727"]], //Cavs
+      ["7", ["1860", "727", "840", "2835"]], //Cavs
       ["8", ["963"]], //mavs
-      ["9", ["279", "383"]], // nuggets
-      ["10", ["200", "2801"]], // pistons
+      ["9", ["279", "383", "1014"]], // nuggets
+      ["10", ["2801"]], // pistons
       ["11", ["514", "124", "204"]], // GSW
-      ["14", ["560", "2810"]], // Rockets
+      ["14", ["2810"]], // Rockets
       ["15", ["2595"]], //Pacers
       ["16", ["314", "189"]], // Clippers
       ["17", ["265", "126", "544"]], // Lakers
       ["19", ["982", "1881", "2568"]], // Grizzlies
       ["20", ["86", "724", "327"]], // Heat
       ["21", ["20", "361", "242"]], // Bucks
-      ["22", ["462", "519", "2584"]], // Wolves
+      ["22", ["192", "519", "2584"]], // Wolves
       ["23", ["260", "1902", "347"]], // Pelicans
       ["24", ["441", "177"]], // Knicks
       ["25", ["972"]], // Thunder
+      ["26", ["3414"]], // Magic
       ["27", ["159", "216"]], // 76ers
       ["28", ["64", "415", "930"]], // Suns
-      ["29", ["398", "319"]], // Blazers
+      ["29", ["398", "319", "200"]], // Blazers
       ["30", ["776", "463"]], // Kings
-      ["31", ["382"]], // Spurs
       ["38", ["479", "527"]], // Raptors
-      ["40", ["192", "114", "840"]], // Jazz
+      ["40", ["114", "830"]], // Jazz
       ["41", ["2564", "45", "432"]], // Wizards
     ];
     this.keyPlayersIdNameMap = new Map(keyPlayersList);
