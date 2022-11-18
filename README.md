@@ -1,12 +1,12 @@
 ## NBAGameRanking
 
-**Master branch deployed at http://www.nbagameranking.com**
+**This project is hosted at http://www.nbagameranking.com**
 
-You wake up early in the morning. You have time to watch a game or two before you have to go to work. 
+You wake up early in the morning. You have time to watch a game or two before you have to go to work.
 
-You grab a cup of coffee, sit in front of your screen and start browsing tonights games. How will you decide which game you should watch? 
+You grab a cup of coffee, sit in front of your screen and start browsing tonights games. How will you decide which game you should watch?
 
-Well, that's what this app is for: todays games are sorted, either by highest scoring game or closest one, in a SPOILER-FREE table. 
+Well, that's what this app is for: todays games are sorted, either by highest scoring game or closest one, in a SPOILER-FREE table.
 
 This way, you know you're guaranteed to watch a good game! (or at least one with a lot of buckets...)
 
@@ -50,5 +50,3 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-
