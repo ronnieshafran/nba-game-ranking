@@ -238,6 +238,8 @@ class App extends Component {
     i = 0;
     for (i = 0; i < allGames.length; i++) {
       allGames[i].getInjuries(playerStatsList[i]);
+      allGames[i].getTopScorer(playerStatsList[i]);
+      
     }
     this.setState({ allGames });
 

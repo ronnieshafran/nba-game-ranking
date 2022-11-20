@@ -65,7 +65,6 @@ class DisplayGame {
   fillGameDetails = (game) => {
     this.overtime = this.#determineOT(game);
     this.marginAfter3 = this.#aggregateMarginAfter3(game);
-    this.specialPerformance = this.#determineSpecialPerformance(game);
     this.isSmallMargin = this.margin <= 5 || this.overtime;
     this.isLargeMargin = this.marginAfter3 >= 15 && this.margin >= 10;
     this.isHighScore = this.homeTeamScore >= 120 && this.awayTeamScore >= 120;
@@ -80,21 +79,13 @@ class DisplayGame {
     }
   };
 
-  #determineSpecialPerformance = (game) => {
-    const homeLeadingScorer = this.#findPointLeader(game.hTeam.leaders);
-    const awayLeadingScorer = this.#findPointLeader(game.vTeam.leaders);
-    return homeLeadingScorer >= 40 || awayLeadingScorer >= 40;
-  };
-
-  #findPointLeader = (leaders) => {
-    let maxPoints = 0;
-    leaders.forEach((leader) => {
-      let currentPoints = Number(leader.points);
-      if (currentPoints > maxPoints) {
-        maxPoints = currentPoints;
-      }
+  getTopScorer = (statlines) => {
+    let max = 0;
+    statlines.forEach((statline) => {
+      const currentPlayerPoints = Number(statline.points);
+      max = currentPlayerPoints > max ? currentPlayerPoints : max;
     });
-    return maxPoints;
+    this.specialPerformance = max >= 40;
   };
 
   #getScoreAfter3 = (linescore) => {
