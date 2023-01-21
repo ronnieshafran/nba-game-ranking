@@ -102,7 +102,7 @@ class KeyPlayersContainer {
     // Knicks
     24: {
       441: "Randle",
-      177: "Fournier",
+      946: "Brunson",
     },
     // Thunder
     25: {
