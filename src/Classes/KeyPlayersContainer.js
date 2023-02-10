@@ -11,10 +11,7 @@ class KeyPlayersContainer {
       75: "Brown",
     },
     // Nets
-    4: {
-      261: "Kyrie",
-      153: "KD",
-    },
+    4: {},
     // Hornets
     5: {
       2566: "LaMelo",
@@ -27,19 +24,17 @@ class KeyPlayersContainer {
     // Cavs
     7: {
       1860: "Garland",
-      727: "Allen",
       840: "Mitchell",
-      2835: "Mobley",
     },
     // Mavs
     8: {
       963: "Luka",
+      261: "Kyrie",
     },
     // Nuggets
     9: {
       279: "Jokic",
       383: "Murray",
-      1014: "Porter Jr.",
     },
     // Pistons
     10: {
@@ -68,13 +63,11 @@ class KeyPlayersContainer {
     17: {
       265: "LeBron",
       126: "Davis",
-      544: "Westbrook",
     },
     // Grizzlies
     19: {
       982: "Jackson Jr.",
       1881: "Ja",
-      2568: "Bane",
     },
     // Heat
     20: {
@@ -121,13 +114,11 @@ class KeyPlayersContainer {
     28: {
       64: "Booker",
       415: "CP3",
-      930: "Ayton",
+      153: "KD",
     },
     // Blazers
     29: {
-      1023: "Simons",
       319: "Lillard",
-      200: "Grant",
     },
     // Kings
     30: {
@@ -141,7 +132,6 @@ class KeyPlayersContainer {
     },
     // Jazz
     40: {
-      114: "Conley",
       830: "Markkanen",
     },
     // Wizards
