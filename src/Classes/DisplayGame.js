@@ -27,13 +27,42 @@ class DisplayGame {
      * totalScoreAfter3, overtime and specialPerformance
      * will be obtained from gameDetails API call afterwards.
      */
-    const { gameId } = game;
+    const {
+      gameId,
+      injuredPlayers,
+      isClutch,
+      isBlowout,
+      isHotGame,
+      isDuel,
+      totalScore,
+      margin,
+      isSpecialPerformance,
+      homeTeam,
+      awayTeam,
+      isBucketFest,
+      isTightD,
+    } = game;
     this.id = gameId;
-    this.#fillHomeTeamDetails(game);
-    this.#fillAwayTeamDetails(game);
-    this.totalScore = Number(this.homeTeamScore) + Number(this.awayTeamScore);
-    this.margin = Math.abs(Number(this.homeTeamScore - this.awayTeamScore));
-    this.#keyPlayers = new KeyPlayersContainer();
+    this.specialPerformance = isSpecialPerformance;
+    this.injuredPlayersList = injuredPlayers;
+    this.injuredPlayers = this.injuredPlayersList.length > 0 ? true : false;
+    this.isLowScore = isTightD;
+    this.isHighScore = isBucketFest;
+    this.isSmallMargin = isClutch;
+    this.isLargeMargin = isBlowout;
+    this.homeTeamName = homeTeam.fullName;
+    this.homeTeamLogoLink = homeTeam.logo;
+    this.awayTeamName = awayTeam.fullName;
+    this.awayTeamLogoLink = awayTeam.logo;
+    this.margin = margin;
+    this.totalScore = totalScore;
+
+    // this.id = gameId;
+    // this.#fillHomeTeamDetails(game);
+    // this.#fillAwayTeamDetails(game);
+    // this.totalScore = Number(this.homeTeamScore) + Number(this.awayTeamScore);
+    // this.margin = Math.abs(Number(this.homeTeamScore - this.awayTeamScore));
+    // this.#keyPlayers = new KeyPlayersContainer();
   }
 
   #fillHomeTeamDetails = (game) => {
