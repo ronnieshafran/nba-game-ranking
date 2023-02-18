@@ -127,121 +127,16 @@ class App extends Component {
      * to fetch the real list, we'll have to make 2 calls to the API. */
     const apiKey = process.env.REACT_APP_ENV_API_KEY;
     const url = process.env.REACT_APP_ENV_URL;
-    console.log("url = " + url + this.selectedDayString());
-
     let response = await fetch(url + this.selectedDayString(), {
       method: "GET",
       headers: {
-        "X-API-Key": apiKey,
+        "x-api-key": apiKey,
       },
     });
     let json = await response.json();
     let responseGames = json.games;
     let allGames = responseGames.map((game) => new DisplayGame(game));
     this.setState({ allGames });
-
-    // gamesFromToday = [];
-    // let listOfHomeTeams = [];
-    // let queriedGamesList = [...json.api.games]; //original list
-    // queriedGamesList.forEach((game) => {
-    //   const startHour = this.getStartHour(game);
-    //   if (
-    //     startHour < 5 &&
-    //     game.statusGame === "Finished" &&
-    //     !listOfHomeTeams.includes(game.hTeam.shortName)
-    //   ) {
-    //     //todays games should start by 5AM UTC at most
-    //     gamesFromToday.push(new DisplayGame(game));
-    //     let homeTeamName = game.hTeam.shortName;
-    //     listOfHomeTeams.push(homeTeamName);
-    //   }
-    // });
-    // this.setState({ gamesFromToday });
-    // // second API call, to get yresterdays game - see comment at the beginning of this function
-    // let secondResponse = await fetch(
-    //   "https://api-nba-v1.p.rapidapi.com/games/date/" +
-    //     this.theDayBeforeSelectedDate(),
-    //   {
-    //     method: "GET",
-    //     headers: {
-    //       "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
-    //       "x-rapidapi-key": apiKey,
-    //     },
-    //   }
-    // );
-    // let secondJson = await secondResponse.json();
-    // let secondQueriedGamesList = [...secondJson.api.games]; //original list
-    // let gamesFromYesterday = [];
-    // let YesterdaysListOfHomeTeams = [];
-    // secondQueriedGamesList.forEach((game) => {
-    //   const startHour = this.getStartHour(game);
-    //   if (
-    //     startHour > 3 &&
-    //     game.statusGame === "Finished" &&
-    //     !YesterdaysListOfHomeTeams.includes(game.hTeam.shortName)
-    //   ) {
-    //     //yesterdays games should start after 3AM UTC
-    //     gamesFromYesterday.push(new DisplayGame(game));
-    //     let homeTeamName = game.hTeam.shortName;
-    //     YesterdaysListOfHomeTeams.push(homeTeamName);
-    //   }
-    // });
-    // this.setState({ gamesFromYesterday });
-    // //combine the games from both calls to one list
-    // let allGames = this.state.gamesFromToday.concat(
-    //   this.state.gamesFromYesterday
-    // );
-    // //fetch game details for each game - it's a different endpoint in the API.
-    // //the gameDetails endpoints is used for blowout, MVP and clutch.
-    // let responses = await Promise.all(
-    //   allGames.map((game) =>
-    //     fetch("https://api-nba-v1.p.rapidapi.com/gameDetails/" + game.id, {
-    //       method: "GET",
-    //       headers: {
-    //         "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
-    //         "x-rapidapi-key":
-    //           "74a31071eamshe7387c3260e4bfbp1dc7b3jsnbf43416ee3df",
-    //       },
-    //     })
-    //   )
-    // );
-    // let data = responses.map((response) => response.json());
-    // let responseData = await Promise.all(data);
-    // let gameDetailsList = responseData.map((game) => (game = game.api.game[0]));
-    // let i = 0;
-    // for (i = 0; i < allGames.length; i++) {
-    //   allGames[i].fillGameDetails(gameDetailsList[i]);
-    // }
-    // this.setState({ allGames });
-    // let gameResponse = await Promise.all(
-    //   allGames.map((game) =>
-    //     fetch(
-    //       "https://api-nba-v1.p.rapidapi.com/statistics/players/gameId/" +
-    //         game.id,
-    //       {
-    //         method: "GET",
-    //         headers: {
-    //           "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
-    //           "x-rapidapi-key":
-    //             "74a31071eamshe7387c3260e4bfbp1dc7b3jsnbf43416ee3df",
-    //         },
-    //       }
-    //     )
-    //   )
-    // );
-    // let gameResponseJson = await gameResponse.map((response) =>
-    //   response.json()
-    // );
-    // let gameResponseData = await Promise.all(gameResponseJson);
-    // let playerStatsList = gameResponseData.map(
-    //   (stats) => (stats = stats.api.statistics)
-    // );
-    // i = 0;
-    // for (i = 0; i < allGames.length; i++) {
-    //   allGames[i].getInjuries(playerStatsList[i]);
-    //   allGames[i].getTopScorer(playerStatsList[i]);
-    // }
-    // this.setState({ allGames });
 
     let sortedGamesListByScore = [...allGames];
     let sortedGamesListByMargin = [...allGames];
