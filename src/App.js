@@ -125,6 +125,7 @@ class App extends Component {
     /**
      * because the API works with UTC time, early games are considered yesterday, while late games are considered today.
      * to fetch the real list, we'll have to make 2 calls to the API. */
+    const apiKey = process.env.REACT_APP_ENV_API_KEY;
     let response = await fetch(
       "https://api-nba-v1.p.rapidapi.com/games/date/" +
         this.selectedDayString(),
@@ -132,8 +133,7 @@ class App extends Component {
         method: "GET",
         headers: {
           "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
-          "x-rapidapi-key":
-            "74a31071eamshe7387c3260e4bfbp1dc7b3jsnbf43416ee3df",
+          "x-rapidapi-key": apiKey,
         },
       }
     );
@@ -163,8 +163,7 @@ class App extends Component {
         method: "GET",
         headers: {
           "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
-          "x-rapidapi-key":
-            "74a31071eamshe7387c3260e4bfbp1dc7b3jsnbf43416ee3df",
+          "x-rapidapi-key": apiKey,
         },
       }
     );
@@ -239,7 +238,6 @@ class App extends Component {
     for (i = 0; i < allGames.length; i++) {
       allGames[i].getInjuries(playerStatsList[i]);
       allGames[i].getTopScorer(playerStatsList[i]);
-      
     }
     this.setState({ allGames });
 
