@@ -42,7 +42,9 @@ class DisplayGame {
     } = game;
     this.id = gameId;
     this.specialPerformance = isSpecialPerformance;
-    this.injuredPlayersList = injuredPlayers;
+    this.injuredPlayersList = injuredPlayers
+      .filter((playerName) => playerName !== "")
+      .join(", ");
     this.injuredPlayers = this.injuredPlayersList.length > 0 ? true : false;
     this.isLowScore = isTightD;
     this.isHighScore = isBucketFest;
